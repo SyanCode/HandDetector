@@ -4,7 +4,7 @@ const captureButton = document.getElementById('captureButton');
 const overlayImage = document.getElementById('overlayImage');
 
 // Connexion WebSocket
-let socket = new WebSocket("ws://handdetector.onrender.com");
+let socket = new WebSocket("ws://handdetector.onrender.com:8000");
 
 // Accéder à la caméra de l'utilisateur
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -35,7 +35,7 @@ captureButton.addEventListener('click', () => {
 
     if (socket.readyState === WebSocket.OPEN) {
         console.log("Envoi de l'image via WebSocket.");
-        socket.send(dataURL);
+        socket.send(JSON.stringify({ image: dataURL }));
     } else {
         console.error("WebSocket non connecté.");
     }
@@ -68,4 +68,9 @@ socket.onerror = (error) => {
 
 socket.onclose = () => {
     console.log("WebSocket fermé.");
+    // Reconnexion automatique
+    setTimeout(() => {
+        console.log("Tentative de reconnexion...");
+        socket = new WebSocket("ws://handdetector.onrender.com:8000");
+    }, 1000);
 };

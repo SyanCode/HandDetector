@@ -4,7 +4,7 @@ const captureButton = document.getElementById('captureButton');
 const overlayImage = document.getElementById('overlayImage');
 
 // Connexion WebSocket
-let socket = new WebSocket("ws://localhost:8765");
+let socket = new WebSocket("ws://handdetector.onrender.com");
 
 // Accéder à la caméra de l'utilisateur
 navigator.mediaDevices.getUserMedia({ video: true })
